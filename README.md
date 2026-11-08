@@ -48,6 +48,6 @@ La versione è definita in `includes/version.php` (`APP_VERSION`). Vedi `CHANGEL
 ## Licenza
 Copyright (C) 2026 Stefano Soranzio.
 
-BuildingSync è distribuito con licenza [GNU AGPL-3.0](LICENSE) (o successiva). Chi modifica il programma e lo
-rende disponibile agli utenti via rete deve offrire loro il codice sorgente completo delle modifiche, sotto la
-stessa licenza.
+BuildingSync è distribuito con [Elastic License 2.0](LICENSE) (source-available). Puoi usarlo, modificarlo e
+ridistribuirlo, ma **non** puoi offrirlo a terzi come servizio hosted o gestito, né aggirare le chiavi di licenza
+o rimuovere gli avvisi di copyright. Per usi non previsti dalla licenza contattare l'autore.
