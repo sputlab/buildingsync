@@ -44,3 +44,10 @@ privacy.php         informativa privacy e cookie (pubblica)
 
 ## Versione
 La versione è definita in `includes/version.php` (`APP_VERSION`). Vedi `CHANGELOG.md`.
+
+## Licenza
+Copyright (C) 2026 Stefano Soranzio.
+
+BuildingSync è distribuito con licenza [GNU AGPL-3.0](LICENSE) (o successiva). Chi modifica il programma e lo
+rende disponibile agli utenti via rete deve offrire loro il codice sorgente completo delle modifiche, sotto la
+stessa licenza.
