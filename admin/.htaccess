@@ -1,0 +1,2 @@
+# Cartella admin — nessun accesso diretto dalla URL senza passare per PHP
+Options -Indexes

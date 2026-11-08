@@ -1,0 +1,37 @@
+# BuildingSync — .htaccess radice
+Options -Indexes -MultiViews
+
+# Blocca accesso diretto a file sensibili
+<FilesMatch "^(config\.php|config\.example\.php|\.env|.*\.sql|.*\.md|.*\.log|\.git.*|\.DS_Store)$">
+    Require all denied
+</FilesMatch>
+
+# Le cartelle includes/, logs/, sql/ e uploads/ hanno un proprio .htaccess "Require all denied".
+# (<DirectoryMatch> non è ammesso nei file .htaccess e su Apache causa un errore 500.)
+
+# Forza HTTPS (decommentare in produzione)
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Intestazioni di sicurezza
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header unset X-Powered-By
+</IfModule>
+
+# Cache file statici (i link includono ?v=VERSIONE, quindi un aggiornamento invalida la cache)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 30 days"
+    ExpiresByType application/javascript "access plus 30 days"
+</IfModule>
+
+# Charset UTF-8
+AddDefaultCharset UTF-8
+
+# Pagine di errore (percorso relativo alla root del dominio: adeguare se l'app è in un'altra cartella)
+ErrorDocument 403 /webapp/buildingsync/login.php
+ErrorDocument 404 /webapp/buildingsync/dashboard.php

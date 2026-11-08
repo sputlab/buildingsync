@@ -1,0 +1,2 @@
+# Blocca accesso diretto a tutti i file in questa cartella
+Require all denied

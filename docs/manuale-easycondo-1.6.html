@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyCondo v1.6 — Manuale Utente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #1a1814;
+  --ink-2:      #3d3830;
+  --ink-3:      #6b6356;
+  --ink-4:      #9c9286;
+  --paper:      #faf8f4;
+  --paper-2:    #f3f0ea;
+  --paper-3:    #e8e3d8;
+  --rule:       #ddd8cc;
+  --navy:       #1a3452;
+  --navy-2:     #254b72;
+  --navy-lt:    #e8eef5;
+  --gold:       #9a7b2e;
+  --gold-lt:    #fdf6e3;
+  --green:      #2d5a3d;
+  --green-lt:   #edf5f0;
+  --red:        #7a2020;
+  --red-lt:     #fdf0f0;
+  --amber:      #7a5000;
+  --amber-lt:   #fdf5e8;
+
+  --sidebar-w:  260px;
+  --ff-head:    'Libre Baskerville', Georgia, serif;
+  --ff-body:    'Source Sans 3', system-ui, sans-serif;
+  --radius:     4px;
+  --shadow:     0 1px 3px rgba(0,0,0,.07), 0 4px 14px rgba(0,0,0,.06);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: var(--ff-body);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.7;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ───────────────────────────────────────────────────── */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--navy);
+  color: #fff;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  overflow-y: auto;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-head {
+  padding: 28px 22px 20px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.sidebar-logo {
+  font-family: var(--ff-head);
+  font-size: 1.15rem;
+  color: #fff;
+  margin-bottom: 3px;
+  display: block;
+}
+.sidebar-sub {
+  font-size: .72rem;
+  color: rgba(255,255,255,.45);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.sidebar-ver {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: .68rem;
+  background: rgba(255,255,255,.12);
+  padding: 2px 8px;
+  border-radius: 2px;
+  color: rgba(255,255,255,.6);
+  letter-spacing: .04em;
+}
+
+nav { padding: 14px 0; flex: 1; }
+
+.nav-section {
+  font-size: .63rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  padding: 14px 22px 4px;
+  display: block;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 22px;
+  color: rgba(255,255,255,.6);
+  font-size: .875rem;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all .15s;
+  cursor: pointer;
+  background: none;
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  width: 100%;
+  text-align: left;
+  font-family: var(--ff-body);
+}
+.nav-link:hover { color: #fff; background: rgba(255,255,255,.06); }
+.nav-link.active { color: #fff; background: rgba(255,255,255,.1); border-left-color: #fff; }
+.nav-link .ic { width: 16px; text-align: center; flex-shrink: 0; font-style: normal; }
+
+.role-section { margin-bottom: 6px; }
+
+.role-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  font-size: .8rem;
+  font-weight: 600;
+  color: #fff;
+  border-left: 3px solid;
+  margin-top: 6px;
+}
+.role-badge.superadmin { border-color: #c084fc; background: rgba(192,132,252,.12); }
+.role-badge.admin      { border-color: #60a5fa; background: rgba(96,165,250,.12); }
+.role-badge.capocasa   { border-color: #34d399; background: rgba(52,211,153,.12); }
+.role-badge.utente     { border-color: rgba(255,255,255,.4); background: rgba(255,255,255,.06); }
+
+/* ── MAIN CONTENT ──────────────────────────────────────────────── */
+.main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  max-width: 900px;
+  padding: 56px 60px;
+}
+
+/* ── TYPOGRAPHY ────────────────────────────────────────────────── */
+h1 {
+  font-family: var(--ff-head);
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+h2 {
+  font-family: var(--ff-head);
+  font-size: 1.55rem;
+  color: var(--navy);
+  margin: 48px 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--rule);
+  line-height: 1.3;
+}
+h3 {
+  font-family: var(--ff-head);
+  font-size: 1.1rem;
+  color: var(--ink-2);
+  margin: 28px 0 10px;
+  font-style: italic;
+}
+h4 {
+  font-family: var(--ff-body);
+  font-size: .9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--ink-3);
+  margin: 20px 0 8px;
+}
+p { margin-bottom: 14px; font-size: .95rem; color: var(--ink-2); }
+p:last-child { margin-bottom: 0; }
+a { color: var(--navy-2); }
+strong { font-weight: 600; color: var(--ink); }
+
+ul, ol { padding-left: 22px; margin-bottom: 14px; }
+li { font-size: .93rem; color: var(--ink-2); margin-bottom: 5px; line-height: 1.6; }
+li strong { color: var(--ink); }
+
+code {
+  font-family: 'Courier New', monospace;
+  font-size: .82rem;
+  background: var(--paper-3);
+  border: 1px solid var(--rule);
+  padding: 1px 6px;
+  border-radius: 3px;
+  color: var(--navy-2);
+}
+
+/* ── SECTIONS ──────────────────────────────────────────────────── */
+.doc-section {
+  display: none;
+  animation: fadeIn .2s ease;
+}
+.doc-section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── COVER ─────────────────────────────────────────────────────── */
+.cover {
+  text-align: center;
+  padding: 60px 0 48px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 40px;
+}
+.cover-icon { font-size: 4rem; display: block; margin-bottom: 20px; }
+.cover-title {
+  font-family: var(--ff-head);
+  font-size: 3rem;
+  color: var(--navy);
+  margin-bottom: 8px;
+  line-height: 1;
+}
+.cover-subtitle { font-size: 1.05rem; color: var(--ink-3); margin-bottom: 4px; }
+.cover-ver {
+  display: inline-block;
+  font-size: .78rem;
+  background: var(--navy);
+  color: #fff;
+  padding: 3px 12px;
+  border-radius: 2px;
+  margin-top: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+/* ── TOC ───────────────────────────────────────────────────────── */
+.toc {
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 22px 26px;
+  margin-bottom: 36px;
+}
+.toc-title {
+  font-family: var(--ff-head);
+  font-size: 1rem;
+  color: var(--ink);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+}
+.toc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 24px;
+}
+.toc-item {
+  font-size: .875rem;
+  color: var(--navy-2);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+}
+.toc-item:hover { color: var(--navy); text-decoration: underline; }
+.toc-num { font-size: .72rem; color: var(--ink-4); min-width: 18px; }
+
+/* ── CALLOUTS ──────────────────────────────────────────────────── */
+.callout {
+  border-left: 3px solid;
+  padding: 12px 16px;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  margin: 18px 0;
+  font-size: .875rem;
+}
+.callout p { margin: 0; }
+.callout-info  { background: var(--navy-lt); border-color: var(--navy-2); color: var(--navy); }
+.callout-tip   { background: var(--green-lt); border-color: var(--green); color: var(--green); }
+.callout-warn  { background: var(--amber-lt); border-color: var(--gold); color: var(--amber); }
+.callout-crit  { background: var(--red-lt); border-color: var(--red); color: var(--red); }
+.callout-label {
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* ── ROLE HEADER ───────────────────────────────────────────────── */
+.role-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  border-radius: var(--radius);
+  margin-bottom: 28px;
+  border: 1px solid;
+}
+.role-header.superadmin { background: #f5f0ff; border-color: #c084fc; }
+.role-header.admin      { background: var(--navy-lt); border-color: #93c5fd; }
+.role-header.capocasa   { background: var(--green-lt); border-color: #6ee7b7; }
+.role-header.utente     { background: var(--paper-2); border-color: var(--rule); }
+.role-header-ic { font-size: 2.2rem; flex-shrink: 0; }
+.role-header-name { font-family: var(--ff-head); font-size: 1.3rem; color: var(--ink); }
+.role-header-desc { font-size: .85rem; color: var(--ink-3); margin-top: 2px; }
+
+/* ── PERMISSION TABLE ──────────────────────────────────────────── */
+.perm-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: .85rem; }
+.perm-table th {
+  background: var(--navy);
+  color: #fff;
+  padding: 9px 14px;
+  text-align: left;
+  font-weight: 600;
+  font-size: .78rem;
+  letter-spacing: .04em;
+}
+.perm-table td { padding: 9px 14px; border-bottom: 1px solid var(--rule); }
+.perm-table tr:last-child td { border-bottom: none; }
+.perm-table tr:nth-child(even) td { background: var(--paper-2); }
+.perm-yes { color: var(--green); font-weight: 600; }
+.perm-no  { color: var(--ink-4); }
+.perm-part{ color: var(--amber); font-weight: 600; }
+
+/* ── STEP LIST ─────────────────────────────────────────────────── */
+.steps { counter-reset: step; list-style: none; padding: 0; margin: 14px 0; }
+.steps li {
+  counter-increment: step;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 14px;
+  font-size: .93rem;
+  color: var(--ink-2);
+  align-items: flex-start;
+}
+.steps li::before {
+  content: counter(step);
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: #fff;
+  font-size: .75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+/* ── FIELD REFERENCE ───────────────────────────────────────────── */
+.field-ref { margin: 10px 0; }
+.field-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: .87rem;
+}
+.field-row:first-child { border-top: 1px solid var(--rule); }
+.field-name {
+  padding: 9px 14px;
+  font-weight: 600;
+  background: var(--paper-2);
+  color: var(--ink-2);
+  display: flex;
+  align-items: center;
+}
+.field-desc { padding: 9px 14px; color: var(--ink-2); }
+.req-star { color: var(--red); margin-left: 3px; }
+
+/* ── CHIPS ─────────────────────────────────────────────────────── */
+.chip {
+  display: inline-block;
+  font-size: .72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 2px;
+  border: 1px solid;
+  letter-spacing: .03em;
+  vertical-align: middle;
+  margin: 0 2px;
+}
+.chip-sa  { background: #f5f0ff; color: #6d28d9; border-color: #c084fc; }
+.chip-adm { background: var(--navy-lt); color: var(--navy-2); border-color: #93c5fd; }
+.chip-cc  { background: var(--green-lt); color: var(--green); border-color: #6ee7b7; }
+.chip-usr { background: var(--paper-2); color: var(--ink-3); border-color: var(--rule); }
+
+/* ── DIVIDER ───────────────────────────────────────────────────── */
+.divider { height: 1px; background: var(--rule); margin: 36px 0; }
+
+/* ── RESPONSIVE ────────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .sidebar { transform: translateX(-100%); transition: transform .2s; }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; padding: 28px 20px; }
+  .mob-btn {
+    display: flex;
+    position: fixed; top: 12px; left: 12px; z-index: 200;
+    width: 38px; height: 38px;
+    background: var(--navy); color: #fff;
+    border: none; border-radius: var(--radius);
+    font-size: 1.1rem; cursor: pointer;
+    align-items: center; justify-content: center;
+  }
+  .toc-grid { grid-template-columns: 1fr; }
+  .field-row { grid-template-columns: 1fr; }
+  .field-name { border-bottom: none; }
+}
+@media (min-width: 861px) { .mob-btn { display: none; } }
+</style>
+</head>
+<body>
+
+<button class="mob-btn" id="mobBtn" aria-label="Menu">&#9776;</button>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-head">
+    <span class="sidebar-logo">🏛 EasyCondo</span>
+    <span class="sidebar-sub">Manuale Utente</span>
+    <span class="sidebar-ver">Versione 1.6</span>
+  </div>
+
+  <nav>
+    <span class="nav-section">Introduzione</span>
+    <button class="nav-link active" data-section="intro">
+      <i class="ic">&#x1F4D6;</i> Panoramica generale
+    </button>
+    <button class="nav-link" data-section="accesso">
+      <i class="ic">&#x1F511;</i> Accesso e autenticazione
+    </button>
+    <button class="nav-link" data-section="ruoli">
+      <i class="ic">&#x1F465;</i> Ruoli e permessi
+    </button>
+
+    <span class="nav-section">Per ruolo</span>
+
+    <div class="role-section">
+      <div class="role-badge superadmin">&#x1F451; Super Admin</div>
+      <button class="nav-link" data-section="sa-dashboard">
+        <i class="ic">&#x1F3E0;</i> Dashboard
+      </button>
+      <button class="nav-link" data-section="sa-admins">
+        <i class="ic">&#x1F464;</i> Gestione amministratori
+      </button>
+      <button class="nav-link" data-section="sa-stabili">
+        <i class="ic">&#x1F3E2;</i> Gestione stabili
+      </button>
+      <button class="nav-link" data-section="sa-utenti">
+        <i class="ic">&#x1F465;</i> Gestione utenti
+      </button>
+      <button class="nav-link" data-section="sa-export">
+        <i class="ic">&#x1F4C4;</i> Export / Import
+      </button>
+    </div>
+
+    <div class="role-section">
+      <div class="role-badge admin">&#x1F4CB; Amministratore</div>
+      <button class="nav-link" data-section="adm-dashboard">
+        <i class="ic">&#x1F3E0;</i> Dashboard
+      </button>
+      <button class="nav-link" data-section="adm-stabili">
+        <i class="ic">&#x1F3E2;</i> Gestione stabili
+      </button>
+      <button class="nav-link" data-section="adm-utenti">
+        <i class="ic">&#x1F465;</i> Gestione utenti
+      </button>
+      <button class="nav-link" data-section="adm-stabile">
+        <i class="ic">&#x1F3E0;</i> Pagina dello stabile
+      </button>
+      <button class="nav-link" data-section="adm-bacheca">
+        <i class="ic">&#x1F4CC;</i> Bacheca
+      </button>
+      <button class="nav-link" data-section="adm-segnalazioni">
+        <i class="ic">&#x1F6A8;</i> Segnalazioni
+      </button>
+      <button class="nav-link" data-section="adm-attivita">
+        <i class="ic">&#x1F4CB;</i> Attività e calendario
+      </button>
+      <button class="nav-link" data-section="adm-export">
+        <i class="ic">&#x1F4C4;</i> Export / Import
+      </button>
+    </div>
+
+    <div class="role-section">
+      <div class="role-badge capocasa">&#x1F3E0; Capocasa</div>
+      <button class="nav-link" data-section="cc-overview">
+        <i class="ic">&#x1F4CB;</i> Panoramica
+      </button>
+      <button class="nav-link" data-section="cc-bacheca">
+        <i class="ic">&#x1F4CC;</i> Bacheca
+      </button>
+      <button class="nav-link" data-section="cc-segnalazioni">
+        <i class="ic">&#x1F6A8;</i> Segnalazioni
+      </button>
+      <button class="nav-link" data-section="cc-attivita">
+        <i class="ic">&#x1F4CB;</i> Attività
+      </button>
+    </div>
+
+    <div class="role-section">
+      <div class="role-badge utente">&#x1F464; Condomino</div>
+      <button class="nav-link" data-section="usr-overview">
+        <i class="ic">&#x1F4CB;</i> Panoramica
+      </button>
+      <button class="nav-link" data-section="usr-bacheca">
+        <i class="ic">&#x1F4CC;</i> Bacheca
+      </button>
+      <button class="nav-link" data-section="usr-segnalazioni">
+        <i class="ic">&#x1F6A8;</i> Segnalazioni
+      </button>
+      <button class="nav-link" data-section="usr-attivita">
+        <i class="ic">&#x1F4CB;</i> Attività
+      </button>
+    </div>
+
+    <span class="nav-section">Altro</span>
+    <button class="nav-link" data-section="profilo">
+      <i class="ic">&#x2699;</i> Profilo personale
+    </button>
+    <button class="nav-link" data-section="email">
+      <i class="ic">&#x1F4E7;</i> Notifiche email
+    </button>
+    <button class="nav-link" data-section="sicurezza">
+      <i class="ic">&#x1F512;</i> Sicurezza
+    </button>
+  </nav>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ══════════════════════════════════════════════════════════════
+     INTRODUZIONE
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section active" id="intro">
+  <div class="cover">
+    <span class="cover-icon">🏛</span>
+    <div class="cover-title">EasyCondo</div>
+    <div class="cover-subtitle">Manuale completo d'uso &mdash; Sistema di gestione condominiale</div>
+    <div class="cover-subtitle" style="font-size:.88rem;color:var(--ink-4);margin-top:6px">Sviluppato da sputlab.com</div>
+    <span class="cover-ver">Versione 1.6</span>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">Indice dei contenuti</div>
+    <div class="toc-grid">
+      <a class="toc-item" href="#" data-goto="accesso"><span class="toc-num">1.</span> Accesso e autenticazione</a>
+      <a class="toc-item" href="#" data-goto="ruoli"><span class="toc-num">2.</span> Ruoli e permessi</a>
+      <a class="toc-item" href="#" data-goto="sa-dashboard"><span class="toc-num">3.</span> Super Admin — Dashboard</a>
+      <a class="toc-item" href="#" data-goto="sa-admins"><span class="toc-num">4.</span> Super Admin — Amministratori</a>
+      <a class="toc-item" href="#" data-goto="sa-stabili"><span class="toc-num">5.</span> Super Admin — Stabili</a>
+      <a class="toc-item" href="#" data-goto="sa-utenti"><span class="toc-num">6.</span> Super Admin — Utenti</a>
+      <a class="toc-item" href="#" data-goto="adm-dashboard"><span class="toc-num">7.</span> Amministratore — Dashboard</a>
+      <a class="toc-item" href="#" data-goto="adm-stabili"><span class="toc-num">8.</span> Amministratore — Stabili</a>
+      <a class="toc-item" href="#" data-goto="adm-attivita"><span class="toc-num">9.</span> Amministratore — Attività</a>
+      <a class="toc-item" href="#" data-goto="cc-overview"><span class="toc-num">10.</span> Capocasa</a>
+      <a class="toc-item" href="#" data-goto="usr-overview"><span class="toc-num">11.</span> Condomino</a>
+      <a class="toc-item" href="#" data-goto="profilo"><span class="toc-num">12.</span> Profilo personale</a>
+      <a class="toc-item" href="#" data-goto="email"><span class="toc-num">13.</span> Notifiche email</a>
+      <a class="toc-item" href="#" data-goto="sicurezza"><span class="toc-num">14.</span> Sicurezza</a>
+    </div>
+  </div>
+
+  <h2>Che cos'è EasyCondo</h2>
+  <p>EasyCondo è un'applicazione web per la gestione collaborativa di condomini e stabili residenziali. Permette a amministratori condominiali, capicasa e condomini di comunicare, organizzare attività e gestire segnalazioni in modo centralizzato e sicuro.</p>
+  <p>Il sistema è progettato per ospitare più amministratori indipendenti, ognuno con i propri stabili e utenti, all'interno di un'unica piattaforma condivisa supervisionata dal Super Amministratore.</p>
+
+  <h3>Concetti fondamentali</h3>
+  <ul>
+    <li><strong>Stabile</strong> — Un condominio o edificio residenziale, con i suoi condomini e le sue attività. Ogni stabile appartiene a un amministratore.</li>
+    <li><strong>Utente</strong> — Ogni persona registrata nel sistema. Un utente può appartenere a più stabili contemporaneamente.</li>
+    <li><strong>Ruolo globale</strong> — Il livello di accesso dell'utente nel sistema (Superadmin, Admin, Capocasa, Condomino).</li>
+    <li><strong>Ruolo per stabile</strong> — Un utente può essere Condomino in uno stabile e Capocasa in un altro.</li>
+    <li><strong>Compartimentazione</strong> — Ogni amministratore vede e gestisce solo i propri stabili e utenti.</li>
+  </ul>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     ACCESSO
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="accesso">
+  <h2>Accesso e autenticazione</h2>
+
+  <h3>Primo accesso</h3>
+  <p>Le credenziali (username e password) vengono create dall'amministratore di sistema o dall'amministratore condominiale. Non è possibile registrarsi autonomamente.</p>
+
+  <div class="callout callout-warn">
+    <span class="callout-label">&#x26A0; Importante</span>
+    <p>Al primo accesso è fortemente consigliato modificare la password dalla sezione <strong>Profilo</strong>. La password iniziale è temporanea e potrebbe essere nota all'amministratore.</p>
+  </div>
+
+  <h3>Procedura di accesso</h3>
+  <ol class="steps">
+    <li>Aprire l'indirizzo web dell'applicazione nel browser.</li>
+    <li>Inserire il proprio <strong>username</strong> (in minuscolo, fornito dall'amministratore).</li>
+    <li>Inserire la <strong>password</strong> assegnata.</li>
+    <li>Cliccare su <strong>Accedi</strong>. Si verrà reindirizzati alla dashboard personale.</li>
+  </ol>
+
+  <h3>Password dimenticata</h3>
+  <p>Se si è dimenticata la password è possibile richiedere un reset autonomo:</p>
+  <ol class="steps">
+    <li>Nella pagina di login, cliccare su <strong>Password dimenticata?</strong></li>
+    <li>Inserire il proprio username e l'indirizzo email associato all'account.</li>
+    <li>Cliccare su <strong>Invia link di reset</strong>.</li>
+    <li>Controllare la propria email (anche nella cartella spam). Il link è valido per <strong>1 ora</strong>.</li>
+    <li>Cliccare sul link ricevuto, inserire la nuova password e confermarla.</li>
+  </ol>
+
+  <div class="callout callout-info">
+    <span class="callout-label">ℹ Nota</span>
+    <p>Il reset via email funziona solo se un indirizzo email valido è stato associato all'account. In caso contrario, contattare l'amministratore per il ripristino manuale.</p>
+  </div>
+
+  <h3>Sicurezza dell'accesso</h3>
+  <ul>
+    <li>Dopo <strong>5 tentativi di accesso falliti</strong> consecutivi, l'account viene bloccato per 15 minuti.</li>
+    <li>La sessione scade automaticamente dopo <strong>1 ora</strong> di inattività.</li>
+    <li>Non è possibile accedere allo stesso account da più sessioni attive contemporaneamente.</li>
+  </ul>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     RUOLI
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="ruoli">
+  <h2>Ruoli e permessi</h2>
+  <p>EasyCondo gestisce quattro livelli di accesso. I permessi sono cumulativi: ogni livello superiore include tutti i permessi di quelli inferiori.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0">
+    <div class="role-header superadmin">
+      <span class="role-header-ic">&#x1F451;</span>
+      <div>
+        <div class="role-header-name">Super Admin</div>
+        <div class="role-header-desc">Controllo totale del sistema</div>
+      </div>
+    </div>
+    <div class="role-header admin">
+      <span class="role-header-ic">&#x1F4CB;</span>
+      <div>
+        <div class="role-header-name">Amministratore</div>
+        <div class="role-header-desc">Gestisce i propri stabili</div>
+      </div>
+    </div>
+    <div class="role-header capocasa">
+      <span class="role-header-ic">&#x1F3E0;</span>
+      <div>
+        <div class="role-header-name">Capocasa</div>
+        <div class="role-header-desc">Privilegi aggiuntivi per stabile</div>
+      </div>
+    </div>
+    <div class="role-header utente">
+      <span class="role-header-ic">&#x1F464;</span>
+      <div>
+        <div class="role-header-name">Condomino</div>
+        <div class="role-header-desc">Accesso base allo stabile</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Tabella comparativa dei permessi</h3>
+  <table class="perm-table">
+    <thead>
+      <tr>
+        <th>Funzione</th>
+        <th>Super Admin</th>
+        <th>Admin</th>
+        <th>Capocasa</th>
+        <th>Condomino</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Creare altri Super Admin</td><td class="perm-yes">✓</td><td class="perm-no">—</td><td class="perm-no">—</td><td class="perm-no">—</td></tr>
+      <tr><td>Creare Amministratori</td><td class="perm-yes">✓</td><td class="perm-no">—</td><td class="perm-no">—</td><td class="perm-no">—</td></tr>
+      <tr><td>Vedere tutti gli stabili</td><td class="perm-yes">✓</td><td class="perm-no">—</td><td class="perm-no">—</td><td class="perm-no">—</td></tr>
+      <tr><td>Creare e gestire stabili</td><td class="perm-yes">✓</td><td class="perm-yes">✓ (propri)</td><td class="perm-no">—</td><td class="perm-no">—</td></tr>
+      <tr><td>Creare e gestire utenti</td><td class="perm-yes">✓</td><td class="perm-yes">✓ (propri)</td><td class="perm-no">—</td><td class="perm-no">—</td></tr>
+      <tr><td>Assegnare utenti a stabili</td><td class="perm-yes">✓</td><td class="perm-yes">✓</td><td class="perm-no">—</td><td class="perm-no">—</td></tr>
+      <tr><td>Pubblicare in bacheca</td><td class="perm-yes">✓</td><td class="perm-yes">✓</td><td class="perm-yes">✓</td><td class="perm-yes">✓</td></tr>
+      <tr><td>Mettere post in evidenza</td><td class="perm-yes">✓</td><td class="perm-yes">✓</td><td class="perm-yes">✓</td><td class="perm-no">—</td></tr>
+      <tr><td>Inviare segnalazioni</td><td class="perm-yes">✓</td><td class="perm-yes">✓</td><td class="perm-yes">✓</td><td class="perm-yes">✓</td></tr>
+      <tr><td>Gestire stato segnalazioni</td><td class="perm-yes">✓</td><td class="perm-yes">✓</td><td class="perm-no">—</td><td class="perm-no">—</td></tr>
+      <tr><td>Creare attività</td><td class="perm-yes">✓</td><td class="perm-yes">✓</td><td class="perm-no">—</td><td class="perm-no">—</td></tr>
+      <tr><td>Completare attività assegnate</td><td class="perm-yes">✓</td><td class="perm-yes">✓</td><td class="perm-yes">✓</td><td class="perm-yes">✓</td></tr>
+      <tr><td>Archiviare segnalazioni/attività</td><td class="perm-yes">✓</td><td class="perm-yes">✓</td><td class="perm-no">—</td><td class="perm-no">—</td></tr>
+      <tr><td>Export/Import CSV</td><td class="perm-yes">✓</td><td class="perm-yes">✓</td><td class="perm-no">—</td><td class="perm-no">—</td></tr>
+      <tr><td>Ricevere email di sistema</td><td class="perm-yes">✓ (tutte)</td><td class="perm-yes">✓ (propri)</td><td class="perm-yes">✓</td><td class="perm-yes">✓</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-info">
+    <span class="callout-label">ℹ Ruolo contestuale per stabile</span>
+    <p>Il ruolo <strong>Capocasa</strong> è assegnato per singolo stabile. Un utente può essere Condomino in uno stabile e Capocasa in un altro. Questo si imposta durante l'assegnazione dell'utente allo stabile.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SUPER ADMIN — DASHBOARD
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="sa-dashboard">
+  <div class="role-header superadmin">
+    <span class="role-header-ic">&#x1F451;</span>
+    <div>
+      <div class="role-header-name">Super Amministratore</div>
+      <div class="role-header-desc">Supervisione e controllo dell'intero sistema</div>
+    </div>
+  </div>
+
+  <h2>Dashboard</h2>
+  <p>La dashboard è la schermata principale dopo il login. Per il Super Admin mostra una panoramica completa del sistema.</p>
+
+  <h3>Riquadri statistici</h3>
+  <p>In alto sono presenti quattro o cinque riquadri cliccabili che mostrano i dati aggregati dell'intero sistema:</p>
+  <ul>
+    <li><strong>Stabili</strong> — numero totale di stabili nel sistema. Cliccando si accede alla gestione stabili.</li>
+    <li><strong>Amministratori</strong> — numero di amministratori attivi. Cliccando si accede alla gestione amministratori.</li>
+    <li><strong>Utenti totali</strong> — numero di utenti registrati. Cliccando si accede alla gestione utenti.</li>
+    <li><strong>Segnalazioni aperte</strong> — segnalazioni non ancora risolte in tutti gli stabili.</li>
+    <li><strong>Attività in scadenza</strong> — attività con scadenza entro 7 giorni.</li>
+  </ul>
+
+  <h3>Barra laterale (sidebar)</h3>
+  <p>Il menu a sinistra è sempre visibile e contiene:</p>
+  <ul>
+    <li><strong>Tasto ⓘ</strong> (in alto a sinistra nel brand) — apre il modale Informazioni con la versione, il changelog e i link di supporto.</li>
+    <li><strong>Dashboard</strong> — torna alla schermata principale.</li>
+    <li><strong>Amministratori</strong> — gestione di tutti gli amministratori del sistema.</li>
+    <li><strong>Stabili</strong> — gestione di tutti gli stabili.</li>
+    <li><strong>Utenti</strong> — gestione di tutti gli utenti.</li>
+    <li><strong>Esporta / Importa</strong> — strumenti CSV.</li>
+    <li><strong>Lista stabili</strong> — accesso diretto a ogni stabile del sistema.</li>
+    <li><strong>Profilo (⚙)</strong> e <strong>Esci (⏏)</strong> — in fondo alla sidebar.</li>
+  </ul>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SUPER ADMIN — AMMINISTRATORI
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="sa-admins">
+  <div class="role-header superadmin">
+    <span class="role-header-ic">&#x1F451;</span>
+    <div><div class="role-header-name">Super Admin — Gestione Amministratori</div></div>
+  </div>
+
+  <h2>Gestione degli Amministratori</h2>
+  <p>Sezione accessibile solo al Super Admin tramite <strong>Amministratori</strong> nella sidebar. Permette di creare e gestire tutti gli account con ruolo Admin o Super Admin.</p>
+
+  <h3>Visualizzazione</h3>
+  <p>La pagina mostra una tabella con tutti gli amministratori del sistema (escluso l'utente corrente), con le colonne: Nome, Username, Email, Ruolo, Numero stabili gestiti, Numero utenti gestiti, Stato, Ultimo accesso.</p>
+
+  <h3>Creare un nuovo amministratore</h3>
+  <ol class="steps">
+    <li>Cliccare su <strong>+ Nuovo amministratore</strong> in alto a destra.</li>
+    <li>Compilare il modulo nel pannello che appare.</li>
+    <li>Scegliere il <strong>Ruolo</strong>: <em>Amministratore</em> per un admin normale, <em>Super Admin</em> per un secondo super-amministratore.</li>
+    <li>Impostare una password sicura (min. 8 caratteri, almeno 1 maiuscola e 1 numero).</li>
+    <li>Cliccare <strong>Salva</strong>.</li>
+  </ol>
+
+  <h4>Campi del modulo</h4>
+  <div class="field-ref">
+    <div class="field-row"><span class="field-name">Nome completo<span class="req-star">*</span></span><span class="field-desc">Nome e cognome dell'amministratore.</span></div>
+    <div class="field-row"><span class="field-name">Username<span class="req-star">*</span></span><span class="field-desc">Identificativo univoco di accesso. Minuscolo, 3–50 caratteri: lettere, numeri, punto, underscore. Non modificabile dall'utente.</span></div>
+    <div class="field-row"><span class="field-name">Email</span><span class="field-desc">Indirizzo email per le notifiche di sistema e il reset password.</span></div>
+    <div class="field-row"><span class="field-name">Ruolo<span class="req-star">*</span></span><span class="field-desc"><em>Amministratore</em> (gestisce i propri stabili) oppure <em>Super Admin</em> (accesso totale al sistema).</span></div>
+    <div class="field-row"><span class="field-name">Account attivo</span><span class="field-desc">Se deselezionato, l'utente non può accedere ma i suoi dati restano nel sistema.</span></div>
+    <div class="field-row"><span class="field-name">Password<span class="req-star">*</span></span><span class="field-desc">Obbligatoria in creazione. In modifica, se lasciata vuota, la password non viene cambiata.</span></div>
+  </div>
+
+  <h3>Modificare un amministratore</h3>
+  <p>Cliccare su <strong>Modifica</strong> nella riga dell'amministratore. Il pannello si apre precompilato. Lasciare vuoto il campo password per non modificarla.</p>
+
+  <h3>Attivare / Disattivare</h3>
+  <p>Il pulsante <strong>Attiva</strong> / <strong>Disattiva</strong> nella riga dell'amministratore ne cambia lo stato senza eliminarlo. Un amministratore disattivato non può accedere ma i suoi stabili e utenti restano intatti.</p>
+
+  <h3>Eliminare un amministratore</h3>
+  <p>Il pulsante <strong>Elimina</strong> rimuove permanentemente l'account. Non è possibile eliminare un amministratore che gestisce ancora degli stabili: bisogna prima riassegnarli o eliminarli.</p>
+
+  <div class="callout callout-crit">
+    <span class="callout-label">&#x26D4; Attenzione</span>
+    <p>Non è possibile eliminare il proprio account Super Admin. L'operazione è irreversibile.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SUPER ADMIN — STABILI
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="sa-stabili">
+  <div class="role-header superadmin">
+    <span class="role-header-ic">&#x1F451;</span>
+    <div><div class="role-header-name">Super Admin — Gestione Stabili</div></div>
+  </div>
+
+  <h2>Gestione di tutti gli Stabili</h2>
+  <p>Il Super Admin ha visibilità su tutti gli stabili di tutti gli amministratori. La pagina <strong>Stabili</strong> mostra la tabella completa con una colonna aggiuntiva <em>Amministratore</em> che indica il responsabile di ogni stabile.</p>
+  <p>Le operazioni disponibili sono identiche a quelle dell'Amministratore (vedi sezione <em>Amministratore — Gestione Stabili</em>), con in più la possibilità di assegnare ogni stabile a qualsiasi amministratore del sistema tramite il campo <strong>Amministratore</strong> nel modulo di creazione/modifica.</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SUPER ADMIN — UTENTI
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="sa-utenti">
+  <div class="role-header superadmin">
+    <span class="role-header-ic">&#x1F451;</span>
+    <div><div class="role-header-name">Super Admin — Gestione Utenti</div></div>
+  </div>
+
+  <h2>Gestione di tutti gli Utenti</h2>
+  <p>Il Super Admin vede tutti gli utenti del sistema (eccetto altri Super Admin). La tabella include la colonna <strong>Admin</strong> per identificare l'amministratore di riferimento di ogni utente.</p>
+  <p>Il Super Admin può creare utenti con qualsiasi ruolo e associarli a qualsiasi amministratore. Per le operazioni dettagliate consultare la sezione <em>Amministratore — Gestione Utenti</em>.</p>
+
+  <h3>Ricerca utenti</h3>
+  <p>È disponibile una barra di ricerca che filtra per nome, username o email. La lista è paginata a 25 utenti per pagina.</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SUPER ADMIN — EXPORT
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="sa-export">
+  <div class="role-header superadmin">
+    <span class="role-header-ic">&#x1F451;</span>
+    <div><div class="role-header-name">Super Admin — Export / Import</div></div>
+  </div>
+
+  <h2>Esportazione e Importazione dati</h2>
+  <p>Il Super Admin ha accesso a tutti i dati del sistema per export e import. Le funzionalità sono identiche a quelle dell'Amministratore, con la differenza che l'export stabili include tutti gli stabili di tutti gli amministratori, e l'export utenti include tutti gli utenti del sistema. Vedere la sezione <em>Amministratore — Export / Import</em> per i dettagli completi.</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     AMMINISTRATORE — DASHBOARD
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="adm-dashboard">
+  <div class="role-header admin">
+    <span class="role-header-ic">&#x1F4CB;</span>
+    <div>
+      <div class="role-header-name">Amministratore</div>
+      <div class="role-header-desc">Gestione dei propri stabili, utenti e attività</div>
+    </div>
+  </div>
+
+  <h2>Dashboard</h2>
+  <p>La dashboard dell'Amministratore mostra una panoramica dei propri stabili e delle attività in corso.</p>
+
+  <h3>Riquadri statistici (cliccabili)</h3>
+  <ul>
+    <li><strong>Stabili</strong> — numero di stabili gestiti. Clicca → Gestione stabili.</li>
+    <li><strong>Utenti totali</strong> — numero di utenti registrati nei propri stabili. Clicca → Gestione utenti.</li>
+    <li><strong>Segnalazioni aperte</strong> — segnalazioni attive. Clicca → Prima segnalazione del primo stabile.</li>
+    <li><strong>Attività in scadenza</strong> — attività con scadenza entro 7 giorni. Clicca → Sezione attività.</li>
+  </ul>
+
+  <h3>Pannello "I tuoi stabili"</h3>
+  <p>Elenco rapido degli stabili con indirizzo e città. Cliccando su uno stabile si accede alla sua pagina principale.</p>
+
+  <h3>Pannello "Prossime attività"</h3>
+  <p>Le 8 attività più imminenti ordinati per scadenza, con stabile di appartenenza, stato e data. Le attività in scadenza imminente appaiono in arancione, quelle scadute in rosso.</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     AMMINISTRATORE — STABILI
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="adm-stabili">
+  <div class="role-header admin">
+    <span class="role-header-ic">&#x1F4CB;</span>
+    <div><div class="role-header-name">Amministratore — Gestione Stabili</div></div>
+  </div>
+
+  <h2>Gestione degli Stabili</h2>
+  <p>Accessibile da <strong>Stabili</strong> nella sidebar. Permette di creare, modificare, eliminare gli stabili e gestirne gli utenti assegnati.</p>
+
+  <h3>Creare un nuovo stabile</h3>
+  <ol class="steps">
+    <li>Cliccare su <strong>+ Nuovo stabile</strong> in alto a destra.</li>
+    <li>Compilare il modulo con i dati dello stabile.</li>
+    <li>Cliccare <strong>Salva</strong>.</li>
+  </ol>
+
+  <h4>Campi del modulo stabile</h4>
+  <div class="field-ref">
+    <div class="field-row"><span class="field-name">Nome<span class="req-star">*</span></span><span class="field-desc">Nome identificativo dello stabile (es. "Condominio Villa Rosa").</span></div>
+    <div class="field-row"><span class="field-name">Indirizzo<span class="req-star">*</span></span><span class="field-desc">Via e numero civico.</span></div>
+    <div class="field-row"><span class="field-name">Città<span class="req-star">*</span></span><span class="field-desc">Comune di ubicazione.</span></div>
+    <div class="field-row"><span class="field-name">Provincia</span><span class="field-desc">Sigla provincia (2 lettere, es. MI).</span></div>
+    <div class="field-row"><span class="field-name">CAP</span><span class="field-desc">Codice di avviamento postale.</span></div>
+    <div class="field-row"><span class="field-name">Codice Fiscale</span><span class="field-desc">Codice fiscale del condominio (opzionale).</span></div>
+    <div class="field-row"><span class="field-name">Unità totali</span><span class="field-desc">Numero complessivo di appartamenti/enti nello stabile.</span></div>
+    <div class="field-row"><span class="field-name">Unità attive</span><span class="field-desc">Numero di unità occupate/attive. Determina la capienza massima per l'assegnazione utenti: se impostato a un valore positivo, non è possibile assegnare più utenti di quante siano le unità attive.</span></div>
+    <div class="field-row"><span class="field-name">Attivo</span><span class="field-desc">Uno stabile inattivo non viene mostrato agli utenti ma i dati vengono mantenuti.</span></div>
+    <div class="field-row"><span class="field-name">Note</span><span class="field-desc">Testo libero per annotazioni interne (non visibile agli utenti comuni).</span></div>
+  </div>
+
+  <h3>Gestione utenti di uno stabile</h3>
+  <p>Cliccare su <strong>Utenti</strong> nella riga dello stabile per accedere alla schermata di assegnazione.</p>
+
+  <h4>Assegnare un utente a uno stabile</h4>
+  <ol class="steps">
+    <li>Selezionare l'utente dal menu a discesa (mostra solo utenti non ancora assegnati).</li>
+    <li>Inserire il <strong>numero unità / interno</strong> (es. "3", "Scala A Int. 2") — opzionale.</li>
+    <li>Scegliere il <strong>ruolo nello stabile</strong>: <em>Condomino</em> o <em>Capocasa</em>.</li>
+    <li>Cliccare <strong>Assegna</strong>.</li>
+  </ol>
+
+  <div class="callout callout-warn">
+    <span class="callout-label">&#x26A0; Capienza massima</span>
+    <p>Se il campo <em>Unità attive</em> è impostato a un valore maggiore di zero, il sistema blocca l'assegnazione quando il numero di utenti assegnati raggiunge quel valore.</p>
+  </div>
+
+  <h4>Rimuovere un utente da uno stabile</h4>
+  <p>Cliccare su <strong>Rimuovi</strong> nella riga dell'utente. L'utente viene dissociato dallo stabile ma il suo account non viene eliminato.</p>
+
+  <div class="callout callout-tip">
+    <span class="callout-label">&#x2714; Ruolo per stabile</span>
+    <p>Un utente può avere ruolo diverso in stabili diversi. Il ruolo assegnato nello stabile (Condomino o Capocasa) è indipendente dal ruolo globale dell'utente nel sistema.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     AMMINISTRATORE — UTENTI
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="adm-utenti">
+  <div class="role-header admin">
+    <span class="role-header-ic">&#x1F4CB;</span>
+    <div><div class="role-header-name">Amministratore — Gestione Utenti</div></div>
+  </div>
+
+  <h2>Gestione degli Utenti</h2>
+  <p>Accessibile da <strong>Utenti</strong> nella sidebar. Permette di creare e gestire i condomini e i capicasa dei propri stabili.</p>
+
+  <h3>La tabella utenti</h3>
+  <p>Mostra: Nome, Username, Email, Telefono, Ruolo, Stato (attivo/inattivo), Ultimo accesso. La ricerca in tempo reale filtra per nome, username o email. La lista è paginata a 25 utenti per pagina.</p>
+
+  <h3>Creare un nuovo utente</h3>
+  <ol class="steps">
+    <li>Cliccare su <strong>+ Nuovo utente</strong>.</li>
+    <li>Compilare il modulo. I campi con asterisco sono obbligatori.</li>
+    <li>Scegliere il ruolo: <em>Condomino</em> o <em>Capocasa</em>.</li>
+    <li>Impostare la password iniziale (verrà comunicata all'utente).</li>
+    <li>Cliccare <strong>Salva</strong>.</li>
+  </ol>
+
+  <h4>Campi del modulo utente</h4>
+  <div class="field-ref">
+    <div class="field-row"><span class="field-name">Nome completo<span class="req-star">*</span></span><span class="field-desc">Nome e cognome.</span></div>
+    <div class="field-row"><span class="field-name">Username<span class="req-star">*</span></span><span class="field-desc">Identificativo univoco. Solo lettere minuscole, numeri, punto, underscore. 3–50 caratteri. Non modificabile dall'utente.</span></div>
+    <div class="field-row"><span class="field-name">Email</span><span class="field-desc">Indirizzo per notifiche email e reset password. Fortemente consigliato.</span></div>
+    <div class="field-row"><span class="field-name">Telefono</span><span class="field-desc">Numero di telefono di contatto (mostrato nella lista utenti).</span></div>
+    <div class="field-row"><span class="field-name">Ruolo</span><span class="field-desc"><em>Condomino</em> (accesso base) o <em>Capocasa</em> (privilegi aggiuntivi per stabile).</span></div>
+    <div class="field-row"><span class="field-name">Account attivo</span><span class="field-desc">Se deselezionato, l'utente non può accedere.</span></div>
+    <div class="field-row"><span class="field-name">Note interne</span><span class="field-desc">Annotazioni visibili solo agli amministratori.</span></div>
+    <div class="field-row"><span class="field-name">Password<span class="req-star">*</span></span><span class="field-desc">Obbligatoria in creazione. Min. 8 caratteri, almeno 1 maiuscola e 1 numero. In modifica: se lasciata vuota, la password non cambia.</span></div>
+  </div>
+
+  <h3>Verifica password in tempo reale</h3>
+  <p>Durante la digitazione della password, il sistema mostra automaticamente:</p>
+  <ul>
+    <li>Sotto il campo <em>Password</em>: i criteri di validità e un indicatore verde <em>"Password ok"</em> quando tutti sono soddisfatti.</li>
+    <li>Sotto il campo <em>Conferma password</em>: <em>"Le password coincidono"</em> in verde quando corrispondono.</li>
+  </ul>
+  <p>Il pulsante <strong>Salva</strong> resta disabilitato finché la password non è valida e le due non coincidono.</p>
+
+  <h3>Modificare un utente</h3>
+  <p>Cliccare su <strong>Modifica</strong> nella riga. I campi si precompilano. La password è opzionale: lasciarla vuota per non modificarla.</p>
+
+  <h3>Attivare / Disattivare un utente</h3>
+  <p>I pulsanti ▶ / ⏸ cambiano lo stato dell'account senza eliminarlo.</p>
+
+  <h3>Eliminare un utente</h3>
+  <p>Il pulsante 🗑 elimina l'account permanentemente insieme a tutti i suoi post, segnalazioni e commenti. Non è possibile eliminare il proprio account.</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     AMMINISTRATORE — STABILE
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="adm-stabile">
+  <div class="role-header admin">
+    <span class="role-header-ic">&#x1F4CB;</span>
+    <div><div class="role-header-name">Amministratore — Pagina dello Stabile</div></div>
+  </div>
+
+  <h2>Pagina dello Stabile</h2>
+  <p>Cliccando su uno stabile dalla sidebar o dalla dashboard si accede alla sua pagina principale, organizzata in quattro schede (tab):</p>
+
+  <ul>
+    <li><strong>Bacheca</strong> — messaggi, avvisi e comunicazioni.</li>
+    <li><strong>Segnalazioni</strong> — problemi e richieste dei condomini.</li>
+    <li><strong>Attività</strong> — compiti pianificati e calendario.</li>
+    <li><strong>Informazioni</strong> — dati anagrafici dello stabile e lista condomini.</li>
+  </ul>
+
+  <p>In alto a destra è presente il pulsante <strong>Gestisci utenti</strong> che porta direttamente alla schermata di assegnazione utenti per quello stabile.</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     AMMINISTRATORE — BACHECA
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="adm-bacheca">
+  <div class="role-header admin">
+    <span class="role-header-ic">&#x1F4CB;</span>
+    <div><div class="role-header-name">Amministratore — Bacheca</div></div>
+  </div>
+
+  <h2>Bacheca dello Stabile</h2>
+  <p>La bacheca è uno spazio di comunicazione condiviso tra tutti i condomini di uno stabile. I messaggi appaiono in ordine cronologico, con quelli "in evidenza" sempre in cima.</p>
+
+  <h3>Tipi di messaggio</h3>
+  <ul>
+    <li><strong>Post generico</strong> — comunicazione informale tra condomini.</li>
+    <li><strong>Avviso</strong> — segnalazione urgente o importante (bordo arancione).</li>
+    <li><strong>Comunicazione ufficiale</strong> — comunicato formale dell'amministratore (bordo verde).</li>
+  </ul>
+
+  <h3>Pubblicare un messaggio</h3>
+  <ol class="steps">
+    <li>Cliccare su <strong>+ Nuovo messaggio</strong>.</li>
+    <li>Inserire titolo e testo.</li>
+    <li>Scegliere il tipo di messaggio.</li>
+    <li>Selezionare <em>In evidenza</em> se il messaggio deve rimanere in cima alla lista.</li>
+    <li>Cliccare <strong>Pubblica</strong>.</li>
+  </ol>
+
+  <p>Gli utenti del condominio ricevono automaticamente una notifica email quando viene pubblicato un nuovo messaggio.</p>
+
+  <h3>Modificare o eliminare un messaggio</h3>
+  <p>L'amministratore può modificare o eliminare qualsiasi messaggio dello stabile. I pulsanti ✏ e 🗑 appaiono in alto a destra di ogni post.</p>
+  <p>Ogni utente può modificare ed eliminare solo i propri messaggi.</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     AMMINISTRATORE — SEGNALAZIONI
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="adm-segnalazioni">
+  <div class="role-header admin">
+    <span class="role-header-ic">&#x1F4CB;</span>
+    <div><div class="role-header-name">Amministratore — Segnalazioni</div></div>
+  </div>
+
+  <h2>Segnalazioni</h2>
+  <p>Le segnalazioni sono messaggi critici che i condomini inviano all'amministratore per problemi, guasti o richieste urgenti.</p>
+
+  <h3>Livelli di gravità</h3>
+  <ul>
+    <li><span class="chip" style="background:#f2f2f2;color:#555;border-color:#ccc">Bassa</span> — problemi minori non urgenti.</li>
+    <li><span class="chip" style="background:#fdf5e8;color:#7a5000;border-color:#d4b56a">Media</span> — problemi che richiedono attenzione.</li>
+    <li><span class="chip" style="background:#fde8cc;color:#7a3800;border-color:#e8b87a">Alta</span> — problemi urgenti.</li>
+    <li><span class="chip" style="background:#fdf0f0;color:#7a2020;border-color:#d9a0a0">Critica</span> — emergenze che richiedono intervento immediato.</li>
+  </ul>
+
+  <h3>Stati di una segnalazione</h3>
+  <ul>
+    <li><span class="chip" style="background:#e8eef5;color:#254b72;border-color:#93c5fd">Aperta</span> — nuova, in attesa di presa in carico.</li>
+    <li><span class="chip" style="background:#fdf5e8;color:#7a5000;border-color:#d4b56a">In lavorazione</span> — l'amministratore sta gestendo il problema.</li>
+    <li><span class="chip" style="background:#edf5f0;color:#2d5a3d;border-color:#6ee7b7">Risolta</span> — il problema è stato risolto.</li>
+    <li><span class="chip" style="background:#f2f2f2;color:#6b6356;border-color:#ccc">Chiusa</span> — archiviata senza ulteriore necessità di azione.</li>
+  </ul>
+
+  <h3>Segnalazioni private</h3>
+  <p>Al momento della creazione è possibile marcare una segnalazione come <strong>privata</strong>:</p>
+  <ul>
+    <li>Se creata da un <strong>condomino</strong>: visibile solo al condomino stesso e all'amministratore.</li>
+    <li>Se creata da un <strong>amministratore</strong>: può essere indirizzata a un utente specifico, che è l'unico a vederla (oltre all'amministratore).</li>
+  </ul>
+
+  <h3>Allegati fotografici</h3>
+  <p>È possibile allegare un'immagine (JPG, PNG, GIF, WEBP, max 5 MB) a ogni segnalazione, sia in creazione che in modifica. Le immagini si visualizzano come anteprime e si aprono in un lightbox al clic. L'immagine può essere eliminata dall'amministratore o dall'utente che l'ha caricata.</p>
+
+  <h3>Aggiornare lo stato di una segnalazione</h3>
+  <p>In fondo a ogni segnalazione è presente un menu a discesa per cambiare lo stato. Dopo aver selezionato il nuovo stato, cliccare <strong>Aggiorna stato</strong>. Il condomino che ha inviato la segnalazione riceve una notifica email.</p>
+
+  <h3>Archiviare una segnalazione</h3>
+  <p>Il pulsante <strong>📂 Archivia</strong> rimuove la segnalazione dalla vista principale senza eliminarla. Le segnalazioni archiviate non appaiono nella lista ma vengono mantenute nel database e sono disponibili per l'export CSV.</p>
+
+  <h3>Tracciabilità</h3>
+  <p>In fondo a ogni segnalazione appaiono:</p>
+  <ul>
+    <li>Chi ha creato la segnalazione e quando.</li>
+    <li>Chi l'ha modificata per ultima e quando (se modificata).</li>
+  </ul>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     AMMINISTRATORE — ATTIVITÀ
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="adm-attivita">
+  <div class="role-header admin">
+    <span class="role-header-ic">&#x1F4CB;</span>
+    <div><div class="role-header-name">Amministratore — Attività e Calendario</div></div>
+  </div>
+
+  <h2>Attività e Calendario</h2>
+  <p>La sezione Attività permette di pianificare, assegnare e monitorare compiti ricorrenti o straordinari per lo stabile.</p>
+
+  <h3>Categorie di attività</h3>
+  <ul>
+    <li>🧹 <strong>Pulizia scale</strong></li>
+    <li>🌿 <strong>Manutenzione giardino</strong></li>
+    <li>📋 <strong>Assemblea</strong></li>
+    <li>🔧 <strong>Manutenzione impianti</strong></li>
+    <li>🔍 <strong>Ispezione</strong></li>
+    <li>📌 <strong>Altro</strong></li>
+  </ul>
+
+  <h3>Creare una nuova attività</h3>
+  <ol class="steps">
+    <li>Cliccare su <strong>+ Nuova attività</strong>.</li>
+    <li>Inserire il titolo e scegliere la categoria.</li>
+    <li>Scegliere a chi assegnare l'attività (opzionale — se non assegnata nessuno riceverà email).</li>
+    <li>Inserire la data programmata e, se necessario, la scadenza.</li>
+    <li>Aggiungere una descrizione opzionale.</li>
+    <li>Cliccare <strong>Crea attività</strong>.</li>
+  </ol>
+
+  <p>L'utente assegnato riceve una notifica email con i dettagli dell'attività.</p>
+
+  <h4>Campi del modulo attività</h4>
+  <div class="field-ref">
+    <div class="field-row"><span class="field-name">Titolo<span class="req-star">*</span></span><span class="field-desc">Breve descrizione dell'attività.</span></div>
+    <div class="field-row"><span class="field-name">Categoria</span><span class="field-desc">Tipo di attività.</span></div>
+    <div class="field-row"><span class="field-name">Assegna a</span><span class="field-desc">Utente responsabile. Se non specificato, l'attività non è assegnata a nessuno.</span></div>
+    <div class="field-row"><span class="field-name">Data programmata<span class="req-star">*</span></span><span class="field-desc">Giorno in cui l'attività è schedulata.</span></div>
+    <div class="field-row"><span class="field-name">Scadenza</span><span class="field-desc">Data limite entro cui l'attività deve essere completata.</span></div>
+    <div class="field-row"><span class="field-name">Descrizione</span><span class="field-desc">Istruzioni o dettagli aggiuntivi per chi esegue l'attività.</span></div>
+  </div>
+
+  <h3>Lista attività</h3>
+  <p>Le attività sono raggruppate per stato: <em>In corso</em> → <em>Da fare</em> → <em>Completate</em> → <em>Annullate</em>. Per ogni attività sono visibili la categoria (con icona e testo), l'assegnatario, le date e lo stato.</p>
+
+  <h4>Segnalazioni di scadenza</h4>
+  <ul>
+    <li>Data in <strong style="color:#7a5000">arancione</strong>: scadenza entro 7 giorni.</li>
+    <li>Data in <strong style="color:#7a2020">rosso</strong>: attività scaduta.</li>
+  </ul>
+
+  <h3>Completare un'attività</h3>
+  <p>Cliccare sul <strong>pallino</strong> a sinistra dell'attività (via AJAX, senza ricaricare la pagina) oppure sul pulsante <strong>Completa</strong> a destra. La data di completamento e il nome di chi ha completato l'attività vengono registrati automaticamente. L'amministratore riceve una notifica email.</p>
+
+  <h3>Riaprire un'attività</h3>
+  <p>Cliccare su <strong>Riapri</strong> a destra di un'attività completata. L'utente assegnato riceve una notifica email della riapertura.</p>
+
+  <h3>Archiviare un'attività completata</h3>
+  <p>Il pulsante 📂 appare solo sulle attività completate. L'attività viene rimossa dalla lista ma rimane nel database per l'export.</p>
+
+  <h3>Calendario trimestrale</h3>
+  <p>Il pulsante <strong>📅 Calendario</strong> apre un calendario a tre mesi (il mese corrente e i due successivi) in un pannello modale.</p>
+  <ul>
+    <li>Le barre colorate mostrano l'attività per l'intera sua durata (dalla data programmata alla scadenza).</li>
+    <li>I colori corrispondono allo stato: blu (da fare), giallo (in corso), verde (completata).</li>
+    <li>Passare il mouse su una barra mostra titolo, assegnatario e date.</li>
+    <li>I pulsanti <strong>‹ Prec.</strong> e <strong>Succ. ›</strong> scorrono il calendario di un mese alla volta.</li>
+    <li>Il giorno corrente è evidenziato con un bordo blu.</li>
+    <li>I weekend hanno uno sfondo leggermente diverso.</li>
+  </ul>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     AMMINISTRATORE — EXPORT
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="adm-export">
+  <div class="role-header admin">
+    <span class="role-header-ic">&#x1F4CB;</span>
+    <div><div class="role-header-name">Amministratore — Esporta / Importa</div></div>
+  </div>
+
+  <h2>Esportazione e Importazione CSV</h2>
+  <p>Accessibile da <strong>Esporta / Importa</strong> nella sidebar. Permette di esportare i dati in formato CSV compatibile con Microsoft Excel, LibreOffice Calc e Google Sheets, e di importare dati massivi da file CSV.</p>
+
+  <h3>Esportazione</h3>
+  <h4>Stabili</h4>
+  <p>Esporta tutti gli stabili con: ID, Nome, Indirizzo, Città, Provincia, CAP, Unità totali, Unità attive, Codice fiscale, Stato, Note, Amministratore.</p>
+
+  <h4>Utenti</h4>
+  <p>Esporta tutti gli utenti con: ID, Username, Nome, Email, Telefono, Ruolo, Attivo, Ultimo accesso.</p>
+
+  <h4>Dati per stabile (selezionare lo stabile)</h4>
+  <ul>
+    <li><strong>Utenti stabile</strong> — utenti assegnati con ruolo, unità e data assegnazione.</li>
+    <li><strong>Segnalazioni</strong> — tutte le segnalazioni con stato, gravità, autore, date.</li>
+    <li><strong>Attività</strong> — tutte le attività con categoria, stato, assegnatario, date.</li>
+  </ul>
+
+  <div class="callout callout-info">
+    <span class="callout-label">ℹ Formato date</span>
+    <p>Le date nei file CSV sono esportate in formato italiano <code>gg-mm-aaaa</code>. I file sono in UTF-8 con BOM per la compatibilità con Excel.</p>
+  </div>
+
+  <h3>Importazione</h3>
+  <p>Selezionare il tipo di importazione, lo stabile di destinazione (se richiesto) e il file CSV.</p>
+
+  <h4>Importazione utenti</h4>
+  <p>Formato: <code>username, nome_completo, email, telefono, ruolo</code></p>
+  <ul>
+    <li>La prima riga deve essere l'intestazione (viene ignorata).</li>
+    <li>La password temporanea assegnata automaticamente è: prima lettera maiuscola dello username + il resto + <code>Tmp1</code> (es. username <code>mario.rossi</code> → password <code>Mario.rossiTmp1</code>).</li>
+    <li>Gli username già esistenti vengono saltati (segnalati come errori).</li>
+    <li>Se viene selezionato uno stabile, gli utenti vengono automaticamente assegnati ad esso.</li>
+  </ul>
+
+  <h4>Importazione stabili</h4>
+  <p>Formato: <code>nome, indirizzo, città, provincia, cap, unità_totali, unità_attive, cod_fiscale</code></p>
+
+  <h4>Importazione segnalazioni e attività</h4>
+  <p>Richiedono la selezione di uno stabile di destinazione. Le date devono essere nel formato <code>gg-mm-aaaa</code>. I valori degli stati e delle categorie devono corrispondere a quelli del sistema (in italiano, es. <code>aperta</code>, <code>pulizia_scale</code>).</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     CAPOCASA — PANORAMICA
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="cc-overview">
+  <div class="role-header capocasa">
+    <span class="role-header-ic">&#x1F3E0;</span>
+    <div>
+      <div class="role-header-name">Capocasa</div>
+      <div class="role-header-desc">Responsabile di stabile con privilegi aggiuntivi</div>
+    </div>
+  </div>
+
+  <h2>Panoramica del ruolo Capocasa</h2>
+  <p>Il Capocasa è un condomino con responsabilità aggiuntive per uno specifico stabile. Il ruolo è <strong>contestuale</strong>: un utente può essere Capocasa in uno stabile e semplice Condomino in un altro. Il ruolo viene assegnato dall'amministratore al momento dell'assegnazione dell'utente allo stabile.</p>
+
+  <h3>Cosa può fare il Capocasa in più rispetto al Condomino</h3>
+  <ul>
+    <li>Pubblicare messaggi in bacheca con l'opzione <strong>In evidenza</strong> (fissi in cima alla lista).</li>
+    <li>Pubblicare <strong>Avvisi</strong> e <strong>Comunicazioni ufficiali</strong> oltre ai post generici.</li>
+    <li>Completare qualsiasi attività assegnata a lui.</li>
+  </ul>
+
+  <h3>Cosa non può fare il Capocasa</h3>
+  <ul>
+    <li>Creare o modificare attività (solo l'amministratore può farlo).</li>
+    <li>Cambiare lo stato delle segnalazioni.</li>
+    <li>Gestire utenti o stabili.</li>
+    <li>Accedere alle segnalazioni private di altri utenti.</li>
+  </ul>
+
+  <h3>Dashboard</h3>
+  <p>La dashboard mostra i riquadri statistici senza la card degli stabili (già visibili nella sidebar). I riquadri cliccabili portano alle sezioni di competenza. Il pannello delle prossime attività mostra le attività assegnate al Capocasa.</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     CAPOCASA — BACHECA
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="cc-bacheca">
+  <div class="role-header capocasa">
+    <span class="role-header-ic">&#x1F3E0;</span>
+    <div><div class="role-header-name">Capocasa — Bacheca</div></div>
+  </div>
+
+  <h2>Bacheca (Capocasa)</h2>
+  <p>Il Capocasa può pubblicare messaggi in bacheca con tutte le tipologie disponibili: <em>Post generico</em>, <em>Avviso</em>, <em>Comunicazione ufficiale</em>. Può anche attivare l'opzione <strong>In evidenza</strong> per mantenere un messaggio fisso in cima alla lista, funzione non disponibile ai condomini normali.</p>
+
+  <h3>Modificare e eliminare messaggi</h3>
+  <p>Il Capocasa può modificare ed eliminare solo i propri messaggi. Per modificare o eliminare messaggi di altri utenti è necessario l'intervento dell'amministratore.</p>
+
+  <h3>Notifiche</h3>
+  <p>Quando il Capocasa pubblica un messaggio, tutti gli altri utenti dello stabile (incluso l'amministratore) ricevono una notifica email.</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     CAPOCASA — SEGNALAZIONI
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="cc-segnalazioni">
+  <div class="role-header capocasa">
+    <span class="role-header-ic">&#x1F3E0;</span>
+    <div><div class="role-header-name">Capocasa — Segnalazioni</div></div>
+  </div>
+
+  <h2>Segnalazioni (Capocasa)</h2>
+  <p>Il Capocasa può creare, visualizzare e modificare le proprie segnalazioni con le stesse modalità di un Condomino. Non può cambiare lo stato delle segnalazioni altrui né gestire quelle private di altri utenti.</p>
+
+  <h3>Segnalazioni visibili</h3>
+  <ul>
+    <li>Tutte le segnalazioni pubbliche dello stabile.</li>
+    <li>Le proprie segnalazioni private.</li>
+    <li>Le segnalazioni private dell'amministratore indirizzate specificamente a lui.</li>
+  </ul>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     CAPOCASA — ATTIVITÀ
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="cc-attivita">
+  <div class="role-header capocasa">
+    <span class="role-header-ic">&#x1F3E0;</span>
+    <div><div class="role-header-name">Capocasa — Attività</div></div>
+  </div>
+
+  <h2>Attività (Capocasa)</h2>
+  <p>Il Capocasa può visualizzare tutte le attività dello stabile e completare quelle assegnate a lui.</p>
+
+  <h3>Completare un'attività assegnata</h3>
+  <p>Cliccare sul <strong>pallino</strong> a sinistra dell'attività oppure sul pulsante <strong>Completa</strong>. Solo le attività assegnate personalmente al Capocasa possono essere completate da lui. L'amministratore viene notificato via email.</p>
+
+  <h3>Calendario</h3>
+  <p>Il Capocasa può visualizzare il calendario trimestrale cliccando su <strong>📅 Calendario</strong>. Il calendario mostra tutte le attività dello stabile, non solo quelle assegnate al Capocasa.</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     CONDOMINO — PANORAMICA
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="usr-overview">
+  <div class="role-header utente">
+    <span class="role-header-ic">&#x1F464;</span>
+    <div>
+      <div class="role-header-name">Condomino</div>
+      <div class="role-header-desc">Accesso alle informazioni e funzionalità del proprio stabile</div>
+    </div>
+  </div>
+
+  <h2>Panoramica del ruolo Condomino</h2>
+  <p>Il Condomino è il livello base di accesso. Può partecipare alla vita del condominio attraverso la bacheca, inviare segnalazioni e visualizzare le attività assegnate a lui.</p>
+
+  <h3>Accesso agli stabili</h3>
+  <p>Un Condomino può appartenere a più stabili. Tutti gli stabili assegnati sono elencati nella barra laterale a sinistra. La card degli stabili non appare nella dashboard perché già visibile nella sidebar.</p>
+
+  <h3>Dashboard</h3>
+  <p>Mostra: segnalazioni aperte inviate dal Condomino, attività assegnate al Condomino, prossime attività in scadenza.</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     CONDOMINO — BACHECA
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="usr-bacheca">
+  <div class="role-header utente">
+    <span class="role-header-ic">&#x1F464;</span>
+    <div><div class="role-header-name">Condomino — Bacheca</div></div>
+  </div>
+
+  <h2>Bacheca (Condomino)</h2>
+  <p>Il Condomino può leggere tutti i messaggi in bacheca e pubblicare i propri post generici.</p>
+
+  <h3>Pubblicare un messaggio</h3>
+  <ol class="steps">
+    <li>Nella scheda <em>Bacheca</em> dello stabile, cliccare su <strong>+ Nuovo messaggio</strong>.</li>
+    <li>Inserire titolo e testo del messaggio.</li>
+    <li>Lasciare il tipo su <em>Post generico</em> (l'unico disponibile per i condomini).</li>
+    <li>Cliccare <strong>Pubblica</strong>.</li>
+  </ol>
+
+  <h3>Modificare o eliminare i propri messaggi</h3>
+  <p>I pulsanti ✏ e 🗑 appaiono solo sui propri messaggi. Non è possibile modificare i messaggi di altri utenti.</p>
+
+  <h3>Notifiche ricevute</h3>
+  <p>Il Condomino riceve una notifica email ogni volta che un altro utente pubblica un messaggio nello stesso stabile.</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     CONDOMINO — SEGNALAZIONI
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="usr-segnalazioni">
+  <div class="role-header utente">
+    <span class="role-header-ic">&#x1F464;</span>
+    <div><div class="role-header-name">Condomino — Segnalazioni</div></div>
+  </div>
+
+  <h2>Segnalazioni (Condomino)</h2>
+  <p>Il Condomino può inviare segnalazioni per problemi dello stabile e seguirne lo stato di risoluzione.</p>
+
+  <h3>Inviare una segnalazione</h3>
+  <ol class="steps">
+    <li>Nella scheda <em>Segnalazioni</em> dello stabile, cliccare su <strong>+ Nuova segnalazione</strong>.</li>
+    <li>Inserire l'oggetto (titolo breve) e la descrizione dettagliata del problema.</li>
+    <li>Scegliere la gravità: Bassa, Media, Alta, Critica.</li>
+    <li>Per una segnalazione <strong>privata</strong> (visibile solo all'amministratore) selezionare <em>Segnalazione privata</em>.</li>
+    <li>Allegare eventualmente una foto (JPG, PNG, GIF, WEBP, max 5 MB).</li>
+    <li>Cliccare <strong>Invia</strong>.</li>
+  </ol>
+
+  <h3>Segnalazioni visibili</h3>
+  <ul>
+    <li>Tutte le segnalazioni pubbliche dello stabile.</li>
+    <li>Le proprie segnalazioni private (non visibili agli altri condomini).</li>
+    <li>Le segnalazioni private che l'amministratore ha indirizzato specificamente a lui.</li>
+  </ul>
+
+  <h3>Modificare una segnalazione</h3>
+  <p>Il Condomino può modificare le proprie segnalazioni anche dopo averle inviate, usando il pulsante ✏ sulla segnalazione. Non può cambiare lo stato (aperta/in lavorazione/risolta/chiusa).</p>
+
+  <h3>Allegati fotografici</h3>
+  <p>Le immagini allegate si visualizzano come miniature cliccabili che aprono un lightbox a schermo intero. Il Condomino che ha caricato un'immagine può eliminarla cliccando sulla × sulla miniatura.</p>
+
+  <h3>Notifiche ricevute</h3>
+  <p>Il Condomino riceve una notifica email quando l'amministratore cambia lo stato di una sua segnalazione.</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     CONDOMINO — ATTIVITÀ
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="usr-attivita">
+  <div class="role-header utente">
+    <span class="role-header-ic">&#x1F464;</span>
+    <div><div class="role-header-name">Condomino — Attività</div></div>
+  </div>
+
+  <h2>Attività (Condomino)</h2>
+  <p>Il Condomino può visualizzare tutte le attività dello stabile e completare quelle assegnate a lui.</p>
+
+  <h3>Completare un'attività</h3>
+  <p>Quando un'attività viene assegnata al Condomino, appare nella sua lista con il pulsante <strong>Completa</strong> (o il pallino cliccabile a sinistra). Cliccando, l'attività viene marcata come completata, registrando la data e il nome dell'esecutore. L'amministratore riceve una notifica email.</p>
+
+  <h3>Attività non assegnate</h3>
+  <p>Il Condomino può vedere anche le attività non assegnate a nessuno o assegnate ad altri, ma non può completarle.</p>
+
+  <h3>Calendario</h3>
+  <p>Il Condomino può visualizzare il calendario trimestrale cliccando su <strong>📅 Calendario</strong>. Vede tutte le attività dello stabile di cui fa parte, con le barre che coprono l'intera durata dell'attività.</p>
+
+  <h3>Notifiche ricevute</h3>
+  <p>Il Condomino riceve una notifica email quando:</p>
+  <ul>
+    <li>Gli viene assegnata una nuova attività.</li>
+    <li>Un'attività a lui assegnata viene riaperta dall'amministratore.</li>
+  </ul>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PROFILO PERSONALE
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="profilo">
+  <h2>Profilo Personale</h2>
+  <p>Accessibile cliccando su <strong>⚙</strong> in fondo alla sidebar. Permette a qualsiasi utente di aggiornare i propri dati e cambiare la password.</p>
+
+  <h3>Dati personali</h3>
+  <ul>
+    <li><strong>Nome completo</strong> — modificabile liberamente.</li>
+    <li><strong>Email</strong> — indirizzo per notifiche e reset password.</li>
+    <li><strong>Telefono</strong> — numero di contatto.</li>
+    <li><strong>Nota personale</strong> — testo libero (visibile anche agli amministratori).</li>
+  </ul>
+  <p>Lo <strong>username</strong> non può essere modificato autonomamente.</p>
+
+  <h3>Modifica password</h3>
+  <ol class="steps">
+    <li>Inserire la <strong>password attuale</strong>.</li>
+    <li>Inserire la <strong>nuova password</strong> (min. 8 caratteri, almeno 1 maiuscola, 1 numero).</li>
+    <li>Confermare la nuova password.</li>
+    <li>Cliccare <strong>Cambia password</strong>.</li>
+  </ol>
+
+  <h3>Riepilogo attività</h3>
+  <p>Il pannello laterale mostra un riepilogo del numero di stabili associati, post in bacheca e segnalazioni inviate, oltre alla data dell'ultimo accesso.</p>
+
+  <div class="callout callout-tip">
+    <span class="callout-label">&#x2714; Consiglio</span>
+    <p>Mantenere l'indirizzo email aggiornato è fondamentale per ricevere le notifiche del sistema e poter effettuare il reset della password autonomamente.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     NOTIFICHE EMAIL
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="email">
+  <h2>Sistema di Notifiche Email</h2>
+  <p>EasyCondo invia notifiche email automatiche per tutti gli eventi rilevanti. Le email vengono inviate all'indirizzo associato all'account di ciascun utente.</p>
+
+  <div class="callout callout-info">
+    <span class="callout-label">ℹ Prerequisito</span>
+    <p>Per ricevere le notifiche è necessario che un indirizzo email valido sia associato all'account. Verificare nella sezione Profilo.</p>
+  </div>
+
+  <h3>Tabella delle notifiche</h3>
+  <table class="perm-table">
+    <thead>
+      <tr><th>Evento</th><th>Destinatari</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Creazione account</td><td>Nuovo utente (con credenziali temporanee)</td></tr>
+      <tr><td>Nuovo post in bacheca</td><td>Tutti gli utenti dello stabile + amministratore</td></tr>
+      <tr><td>Nuova segnalazione pubblica</td><td>Amministratore + tutti gli utenti dello stabile</td></tr>
+      <tr><td>Nuova segnalazione privata (utente→admin)</td><td>Solo l'amministratore</td></tr>
+      <tr><td>Nuova segnalazione privata (admin→utente)</td><td>Solo l'utente destinatario</td></tr>
+      <tr><td>Cambio stato segnalazione</td><td>Il condomino che ha creato la segnalazione</td></tr>
+      <tr><td>Nuova attività assegnata</td><td>L'utente assegnato + amministratore (se non è il creatore)</td></tr>
+      <tr><td>Attività completata</td><td>L'amministratore dello stabile</td></tr>
+      <tr><td>Attività riaperta</td><td>L'utente assegnato all'attività</td></tr>
+      <tr><td>Reset password</td><td>L'utente che ha richiesto il reset</td></tr>
+      <tr><td>Tutti gli eventi sopra</td><td>Super Admin (copia silenziosa)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Email del Super Admin</h3>
+  <p>Il Super Admin riceve sempre una copia silenziosa di tutte le notifiche del sistema, incluse quelle relative agli stabili di altri amministratori. Queste email non sono visibili agli altri utenti e non influenzano il flusso normale delle comunicazioni.</p>
+
+  <div class="callout callout-warn">
+    <span class="callout-label">&#x26A0; Spam</span>
+    <p>Se le email non arrivano, controllare la cartella spam. Se il problema persiste, contattare il gestore del sistema per verificare la configurazione del server email.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SICUREZZA
+══════════════════════════════════════════════════════════════ -->
+<section class="doc-section" id="sicurezza">
+  <h2>Sicurezza del sistema</h2>
+  <p>EasyCondo è progettato con la sicurezza come priorità, seguendo le best practice del 2026 per applicazioni web PHP/MySQL.</p>
+
+  <h3>Protezione degli accessi</h3>
+  <ul>
+    <li><strong>Password con bcrypt</strong> — le password non sono mai memorizzate in chiaro, ma sotto forma di hash bcrypt con costo 12.</li>
+    <li><strong>Blocco per tentativi falliti</strong> — dopo 5 tentativi errati consecutivi, l'account viene bloccato per 15 minuti.</li>
+    <li><strong>Token CSRF</strong> — ogni modulo include un token di sicurezza unico per prevenire attacchi Cross-Site Request Forgery.</li>
+    <li><strong>Sessioni sicure</strong> — i cookie di sessione usano i flag <code>HttpOnly</code>, <code>Secure</code> e <code>SameSite=Strict</code>. L'ID sessione viene rigenerato ogni 5 minuti.</li>
+    <li><strong>Validazione input</strong> — tutti gli input utente vengono validati e sanificati lato server. Le query usano prepared statements PDO per prevenire SQL injection.</li>
+    <li><strong>Intestazioni HTTP di sicurezza</strong> — il server invia <code>X-Content-Type-Options</code>, <code>X-Frame-Options</code>, <code>X-XSS-Protection</code>, <code>Referrer-Policy</code> e <code>Content-Security-Policy</code>.</li>
+  </ul>
+
+  <h3>Regole per le password</h3>
+  <ul>
+    <li>Minimo <strong>8 caratteri</strong>.</li>
+    <li>Almeno <strong>1 lettera maiuscola</strong>.</li>
+    <li>Almeno <strong>1 numero</strong>.</li>
+  </ul>
+
+  <div class="callout callout-tip">
+    <span class="callout-label">&#x2714; Consiglio</span>
+    <p>Usare una password di almeno 12 caratteri con maiuscole, numeri e simboli. Non riutilizzare la stessa password su più servizi.</p>
+  </div>
+
+  <h3>Compartimentazione dei dati</h3>
+  <ul>
+    <li>Ogni amministratore vede e gestisce <strong>solo i propri stabili e utenti</strong>.</li>
+    <li>I condomini vedono solo gli stabili a cui sono stati <strong>esplicitamente assegnati</strong>.</li>
+    <li>Le segnalazioni private sono visibili <strong>solo alle parti coinvolte</strong>.</li>
+    <li>Nessun accesso diretto ai file delle cartelle <code>includes/</code> e <code>logs/</code> dall'esterno (protetti via <code>.htaccess</code>).</li>
+    <li>Il file <code>config.php</code> è bloccato all'accesso diretto dal web.</li>
+  </ul>
+
+  <h3>Audit log</h3>
+  <p>Il sistema registra nella tabella <code>audit_log</code> tutte le operazioni di accesso (login riusciti e falliti, logout), con IP e user agent. Questo log è accessibile solo via database diretto e non dall'interfaccia web.</p>
+
+  <h3>Allegati e upload</h3>
+  <ul>
+    <li>Solo immagini (JPG, PNG, GIF, WEBP) possono essere caricate.</li>
+    <li>Il tipo MIME viene verificato lato server, non solo dall'estensione.</li>
+    <li>I file caricati vengono rinominati con un UUID casuale per prevenire indovinamento dei nomi.</li>
+    <li>Dimensione massima per upload: <strong>5 MB</strong>.</li>
+  </ul>
+
+  <div class="callout callout-crit">
+    <span class="callout-label">&#x26D4; Post-installazione</span>
+    <p>Dopo la prima installazione è obbligatorio: cambiare la password del Super Admin predefinita, aggiornare l'<code>APP_KEY</code> in <code>config.php</code> con una stringa casuale di 64 caratteri, e abilitare HTTPS decommentando la regola di redirect nel file <code>.htaccess</code>.</p>
+  </div>
+</section>
+
+</main><!-- /.main -->
+
+<script>
+// ── Navigation ────────────────────────────────────────────────────
+function showSection(id) {
+  document.querySelectorAll('.doc-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  var sec = document.getElementById(id);
+  if (sec) { sec.classList.add('active'); window.scrollTo(0,0); }
+  var btn = document.querySelector('[data-section="'+id+'"]');
+  if (btn) btn.classList.add('active');
+  // close mobile sidebar
+  if (window.innerWidth <= 860) document.getElementById('sidebar').classList.remove('open');
+}
+
+document.querySelectorAll('[data-section]').forEach(function(btn) {
+  btn.addEventListener('click', function(){ showSection(this.dataset.section); });
+});
+document.querySelectorAll('[data-goto]').forEach(function(a) {
+  a.addEventListener('click', function(e){ e.preventDefault(); showSection(this.dataset.goto); });
+});
+
+// ── Mobile sidebar ───────────────────────────────────────────────
+document.getElementById('mobBtn').addEventListener('click', function(){
+  document.getElementById('sidebar').classList.toggle('open');
+});
+document.addEventListener('click', function(e){
+  var sb = document.getElementById('sidebar');
+  if (sb.classList.contains('open') && !sb.contains(e.target) && e.target.id !== 'mobBtn') {
+    sb.classList.remove('open');
+  }
+});
+
+// ── Active section on load ───────────────────────────────────────
+showSection('intro');
+</script>
+</body>
+</html>

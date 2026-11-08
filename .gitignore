@@ -1,0 +1,21 @@
+# Configurazione locale con credenziali (usare config.example.php come modello)
+/config.php
+
+# Runtime
+/logs/*
+!/logs/.gitkeep
+!/logs/.htaccess
+/uploads/segnalazioni/*
+!/uploads/segnalazioni/.gitkeep
+
+# Archivio locale di vecchie versioni/zip (non versionato: la storia sta in git/tag)
+/_local_archive/
+
+# Build / pacchetti
+*.zip
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.log
