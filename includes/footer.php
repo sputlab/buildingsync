@@ -35,8 +35,13 @@
     <div style="font-size:.8rem;color:var(--gray-600);line-height:1.8;max-height:200px;overflow-y:auto;padding-right:6px;border:var(--border);border-radius:var(--radius);padding:10px 14px">
 
       <div style="margin-bottom:10px">
-        <strong style="color:var(--gray-900)">v2.1.1</strong>
+        <strong style="color:var(--gray-900)">v2.1.2</strong>
         <span style="font-size:.7rem;background:var(--blue-lt);color:var(--blue);padding:1px 7px;border-radius:2px;margin-left:6px">corrente</span><br>
+        &bull; Licenza Elastic License 2.0
+      </div>
+
+      <div style="margin-bottom:10px;padding-top:8px;border-top:var(--border)">
+        <strong style="color:var(--gray-900)">v2.1.1</strong><br>
         &bull; &ldquo;Segnala un bug&rdquo;: email a bug@sputlab.com con oggetto &ldquo;Segnalazione bug BuildingSync&rdquo;<br>
         &bull; &ldquo;Supporta lo sviluppo&rdquo; punta a www.sputlab.com/donate
       </div>

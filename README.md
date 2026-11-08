@@ -1,4 +1,4 @@
-# BuildingSync 2.1.1
+# BuildingSync 2.1.2
 
 Webapp di gestione condominiale (PHP 7.4+ · MySQL 5.7+ / MariaDB 10.3+). Ex EasyCondo.
 

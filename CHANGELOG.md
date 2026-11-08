@@ -3,6 +3,15 @@
 Formato: [Semantic Versioning](https://semver.org/lang/it/) — MAJOR.MINOR.PATCH.
 MAJOR = modifiche incompatibili · MINOR = nuove funzioni compatibili · PATCH = correzioni.
 
+## [2.1.2] — 2026-11-08
+
+### Modifiche
+- Licenza: il progetto è ora distribuito con **Elastic License 2.0** (`LICENSE`); vietato offrirlo a terzi come
+  servizio hosted o gestito.
+- Repository: struttura standard (`.gitignore`, `.gitattributes`, `docs/`), `config.php` escluso dal versionamento.
+- La versione 2.1.1 è stata ritirata e sostituita da questa.
+- Nessuna modifica al database (`DB_SCHEMA_VERSION` resta 2.1.0).
+
 ## [2.1.1] — 2026-09-24
 
 ### Modifiche
